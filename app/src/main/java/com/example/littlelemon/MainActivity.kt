@@ -20,10 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             LittleLemonTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    Onboarding.Greeting(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
