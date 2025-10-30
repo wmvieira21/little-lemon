@@ -1,4 +1,4 @@
-package composables
+package com.example.littlelemon.composables
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
