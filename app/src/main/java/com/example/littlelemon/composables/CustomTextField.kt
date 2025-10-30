@@ -1,4 +1,4 @@
-package composables
+package com.example.littlelemon.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
