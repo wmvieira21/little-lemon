@@ -9,12 +9,15 @@ import androidx.navigation.compose.composable
 import com.example.littlelemon.destinations.Home
 import com.example.littlelemon.destinations.Onboarding
 import com.example.littlelemon.destinations.Profile
+import com.example.littlelemon.repository.AppDatabase
+import com.example.littlelemon.repository.MenuRepository
 import com.example.littlelemon.screens.HomeScreen
 import com.example.littlelemon.screens.OnboardingScreen
 import com.example.littlelemon.screens.ProfileScreen
 
 @Composable
 fun AppNavigation(
+    repository: MenuRepository,
     sharedPreferences: SharedPreferences,
     navController: NavHostController,
     modifier: Modifier
@@ -33,10 +36,10 @@ fun AppNavigation(
             OnboardingScreen(sharedPreferences, navController, modifier)
         }
         composable(Home.route) {
-            HomeScreen(navController,modifier)
+            HomeScreen(repository, navController, modifier)
         }
         composable(Profile.route) {
-            ProfileScreen(navController,modifier)
+            ProfileScreen(sharedPreferences, navController, modifier)
         }
     }
 

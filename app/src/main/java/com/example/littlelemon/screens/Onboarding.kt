@@ -2,21 +2,18 @@ package com.example.littlelemon.screens
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.FabPosition
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,20 +23,19 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.littlelemon.R
-import com.example.littlelemon.composables.CustomButton
-import com.example.littlelemon.composables.CustomTextField
+import com.example.littlelemon.components.CustomButton
+import com.example.littlelemon.components.CustomTextField
 import androidx.core.content.edit
 import androidx.navigation.NavHostController
 import com.example.littlelemon.destinations.Home
+import com.example.littlelemon.utils.Header
+import com.example.littlelemon.utils.showToast
 
 @Composable
 fun OnboardingScreen(
@@ -57,25 +53,7 @@ fun OnboardingScreen(
 }
 
 @Composable
-fun Header(modifier: Modifier = Modifier) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Image(
-            painter = painterResource(R.drawable.logo),
-            contentScale = ContentScale.Fit,
-            contentDescription = "Logo",
-            modifier = modifier
-                .width(250.dp)
-                .height(50.dp)
-        )
-    }
-}
-
-@Composable
-fun GreetingTitle() {
+private fun GreetingTitle() {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -85,8 +63,7 @@ fun GreetingTitle() {
     ) {
         Text(
             text = "Let's get to know you!",
-            fontSize = 28.sp,
-            fontWeight = FontWeight.Normal,
+            style = MaterialTheme.typography.headlineLarge,
             textAlign = TextAlign.Center,
             color = Color.White
         )
@@ -94,7 +71,7 @@ fun GreetingTitle() {
 }
 
 @Composable
-fun SignUpForm(sharedPreferences: SharedPreferences, navController: NavHostController) {
+private fun SignUpForm(sharedPreferences: SharedPreferences, navController: NavHostController) {
     val context = LocalContext.current;
     val firstNameValue = rememberSaveable { mutableStateOf("") }
     val lastNameValue = rememberSaveable { mutableStateOf("") }
@@ -124,26 +101,22 @@ fun SignUpForm(sharedPreferences: SharedPreferences, navController: NavHostContr
                 .verticalScroll(rememberScrollState())
         ) {
             CustomTextField(
-                "First name",
+                labelName = "First name",
                 value = firstNameValue.value,
                 onValueChange = { newValue: String -> onChangeValue(firstNameValue, newValue) })
             CustomTextField(
-                "Last name",
+                labelName = "Last name",
                 value = lastNameValue.value,
                 onValueChange = { newValue: String -> onChangeValue(lastNameValue, newValue) })
             CustomTextField(
-                "Email",
+                labelName = "Email",
                 value = emailValue.value,
                 onValueChange = { newValue: String -> onChangeValue(emailValue, newValue) })
         }
     })
 }
 
-fun showToast(context: Context, message: String) {
-    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-}
-
-fun saveLocalData(
+private fun saveLocalData(
     context: Context,
     sharedPreferences: SharedPreferences,
     firstName: String,

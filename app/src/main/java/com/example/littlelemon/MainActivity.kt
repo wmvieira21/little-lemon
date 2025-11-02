@@ -15,22 +15,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.littlelemon.navigation.AppNavigation
+import com.example.littlelemon.repository.AppDatabase
+import com.example.littlelemon.repository.Database
+import com.example.littlelemon.repository.MenuRepository
+import com.example.littlelemon.service.MenuItemsService
 import com.example.littlelemon.ui.theme.LittleLemonTheme
 
 class MainActivity : ComponentActivity() {
     private val sharedPreferences: SharedPreferences by lazy {
         getSharedPreferences("little-lemon-data", Context.MODE_PRIVATE)
     }
+    private val database: AppDatabase by lazy { Database.build(applicationContext) }
+    private val repository: MenuRepository by lazy { MenuRepository(MenuItemsService(), database) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         enableEdgeToEdge()
         setContent {
             LittleLemonTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MyApp(
+                        repository = repository,
                         sharedPreferences = sharedPreferences,
                         modifier = Modifier.padding(innerPadding)
                     )
@@ -41,9 +47,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyApp(sharedPreferences: SharedPreferences, modifier: Modifier = Modifier) {
+fun MyApp(
+    repository: MenuRepository, sharedPreferences: SharedPreferences, modifier: Modifier = Modifier
+) {
     val navController = rememberNavController()
-    AppNavigation(sharedPreferences, navController,modifier)
+    AppNavigation(repository, sharedPreferences, navController, modifier)
 }
 
 @Preview(showBackground = true)
