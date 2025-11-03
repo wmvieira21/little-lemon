@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.littlelemon.components.home.CardMenuItem
+import com.example.littlelemon.components.home.CategoryFilter
 import com.example.littlelemon.components.home.HeaderHome
 import com.example.littlelemon.components.home.InfoBanner
 import com.example.littlelemon.components.home.SearchTextField
@@ -34,6 +35,7 @@ fun HomeScreen(
     Column(modifier = modifier) {
         HeaderHome(navController, modifier)
         SearchBanner()
+        CategoryFilter(onClick = {})
         Menu(repository = repository)
     }
 }

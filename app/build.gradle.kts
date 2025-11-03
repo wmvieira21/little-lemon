@@ -56,6 +56,7 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:2.1.3")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.1.3")
     implementation("androidx.room:room-runtime:2.4.3")
+    implementation("com.github.bumptech.glide:compose:1.0.0-alpha.1")
     kapt("androidx.room:room-compiler:2.4.3")
     implementation("androidx.compose.ui:ui-text-google-fonts:1.7.5")
     testImplementation(libs.junit)

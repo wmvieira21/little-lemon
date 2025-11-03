@@ -22,9 +22,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.example.littlelemon.R
 import com.example.littlelemon.repository.MenuItemEntity
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun CardMenuItem(
     item: MenuItemEntity
@@ -69,10 +72,10 @@ fun CardMenuItem(
                 )
             }
 
-            Image(
-                painter = painterResource(R.drawable.pasta),
+            GlideImage(
+                model = item.image,
                 contentDescription = "dish picture",
-                contentScale = ContentScale.FillBounds,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .height(100.dp)
                     .clip(RoundedCornerShape(10.dp))

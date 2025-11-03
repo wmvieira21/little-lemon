@@ -1,16 +1,17 @@
 package com.example.littlelemon.model
 
 import com.example.littlelemon.repository.MenuItemEntity
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MenuItem(
-    val id: Int,
-    val title: String,
-    val description: String,
-    val price: Double,
-    val image: String,
-    val category: String
+data class MenuItemNetwork(
+    @SerialName("id") val id: Int,
+    @SerialName("title") val title: String,
+    @SerialName("description") val description: String,
+    @SerialName("price") val price: Double,
+    @SerialName("image") val image: String,
+    @SerialName("category") val category: String
 ) {
     fun toEntity(): MenuItemEntity {
         return MenuItemEntity(
@@ -25,5 +26,5 @@ data class MenuItem(
 }
 
 @Serializable
-data class Menu(val menu: List<MenuItem>)
+data class MenuNetwork(@SerialName("menu") val menu: List<MenuItemNetwork>)
 

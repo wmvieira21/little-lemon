@@ -2,10 +2,8 @@ package com.example.littlelemon.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.littlelemon.model.MenuItem
 import com.example.littlelemon.repository.MenuItemEntity
 import com.example.littlelemon.repository.MenuRepository
-import com.example.littlelemon.service.MenuItemsService
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

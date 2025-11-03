@@ -1,11 +1,7 @@
 package com.example.littlelemon.service
 
-import android.content.Context
-import com.example.littlelemon.model.Menu
-import com.example.littlelemon.model.MenuItem
-import com.example.littlelemon.repository.AppDatabase
-import com.example.littlelemon.repository.Database
-import com.example.littlelemon.repository.MenuItemEntity
+import com.example.littlelemon.model.MenuItemNetwork
+import com.example.littlelemon.model.MenuNetwork
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android
@@ -23,9 +19,9 @@ class MenuItemsService {
         }
     }
 
-    suspend fun getMenuItemsFromServer(): List<MenuItem> {
+    suspend fun getMenuItemsFromServer(): List<MenuItemNetwork> {
         try {
-            val response: Menu =
+            val response: MenuNetwork =
                 client.get("https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu.json")
                     .body()
 
