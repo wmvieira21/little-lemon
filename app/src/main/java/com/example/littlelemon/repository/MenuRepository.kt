@@ -9,21 +9,21 @@ class MenuRepository(
 ) {
     suspend fun loadDataFromServer() {
         val itemsFromServer = service.getMenuItemsFromServer()
-        println("william loading data from server..." + itemsFromServer.toString())
+        println("william itemsFromServer ${itemsFromServer.size}")
         if (itemsFromServer.isNotEmpty()) {
             val itemListEntity: List<MenuItemEntity> = itemsFromServer.map { it.toEntity() }
             saveDataDatabase(itemListEntity)
+            println("william saving ${itemListEntity.size}")
         }
     }
 
     suspend fun getMenuFromDatabase(): List<MenuItemEntity> {
         return withContext(Dispatchers.IO) {
-            database.menuItemDAO().getAll()
+            database.menuItemDAO().getAll().sortedBy { it -> it.title }
         }
     }
 
     suspend fun saveDataDatabase(items: List<MenuItemEntity>) {
-        println("william saving data from server..." + items.toString())
         withContext(Dispatchers.IO) {
             database.menuItemDAO().insertAll(*items.toTypedArray())
         }

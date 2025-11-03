@@ -30,42 +30,48 @@ import com.example.littlelemon.R
 
 @Composable
 fun InfoBanner() {
-    Text(
-        text = "Little Lemon",
-        style = MaterialTheme.typography.titleLarge,
-        color = Color(0xFFF4CE14),
+    Column(
         modifier = Modifier
-    )
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth()
+            .background(Color(0xFF495E57))
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        Column(
+        Text(
+            text = "Little Lemon",
+            style = MaterialTheme.typography.titleLarge,
+            color = Color(0xFFF4CE14),
             modifier = Modifier
-                .weight(0.70f)
-                .padding(end = 4.dp)
+        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text(
-                text = "Chicago",
-                style = MaterialTheme.typography.titleMedium,
-                color = Color(0xFFEDEFEE)
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = "We are a family-owned Mediterranean restaurant, focused on traditional recipes served with a modern twist",
-                style = MaterialTheme.typography.bodySmall,
-                color = Color(0xE2E8E8E8),
+            Column(
+                modifier = Modifier
+                    .weight(0.70f)
+                    .padding(end = 4.dp)
+            ) {
+                Text(
+                    text = "Chicago",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Color(0xFFEDEFEE)
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = "We are a family-owned Mediterranean restaurant, focused on traditional recipes served with a modern twist",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color(0xE2E8E8E8),
+                )
+            }
+            Image(
+                painterResource(R.drawable.hero_image),
+                contentScale = ContentScale.Fit,
+                contentDescription = "banner image",
+                modifier = Modifier
+                    .weight(0.30f)
+                    .clip(RoundedCornerShape(16.dp))
+                    .border(1.dp, Color.Transparent, RoundedCornerShape(16.dp))
             )
         }
-        Image(
-            painterResource(R.drawable.hero_image),
-            contentScale = ContentScale.Fit,
-            contentDescription = "banner image",
-            modifier = Modifier
-                .weight(0.30f)
-                .clip(RoundedCornerShape(16.dp))
-                .border(1.dp, Color.Transparent, RoundedCornerShape(16.dp))
-        )
     }
 }

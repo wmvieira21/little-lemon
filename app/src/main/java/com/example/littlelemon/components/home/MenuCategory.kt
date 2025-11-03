@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import com.example.littlelemon.data.categories
 
 @Composable
-fun CategoryFilter(onClick: (nameButton: String) -> Unit) {
+fun CategoryFilter(onClick: (String) -> Unit) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         Text(
             "ORDER FOR DELIVERY!",
@@ -32,7 +32,7 @@ fun CategoryFilter(onClick: (nameButton: String) -> Unit) {
 
 
 @Composable
-fun CategoryList(onClick: (nameButton: String) -> Unit) {
+fun CategoryList(onClick: (String) -> Unit) {
     LazyRow(state = rememberLazyListState(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         itemsIndexed(categories) { index, category ->
             CategoryButton(category.name, onClick)
@@ -41,7 +41,7 @@ fun CategoryList(onClick: (nameButton: String) -> Unit) {
 }
 
 @Composable
-fun CategoryButton(name: String, onClick: (nameButton: String) -> Unit) {
+fun CategoryButton(name: String, onClick: (String) -> Unit) {
     Button(
         onClick = { onClick(name) }, colors = ButtonColors(
             containerColor = Color(0x2A495E57),

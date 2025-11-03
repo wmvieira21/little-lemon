@@ -8,18 +8,44 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlin.collections.filter
 
 class MenuItemsViewModel : ViewModel() {
+    private var menuItemsFromDataBase: List<MenuItemEntity> = emptyList()
     private val _menuItems = MutableStateFlow<List<MenuItemEntity>>(emptyList())
     val menuItems: StateFlow<List<MenuItemEntity>> = _menuItems
 
     fun loadMenuItemsDataBase(repository: MenuRepository) {
         viewModelScope.launch {
-            val loadFromServer = async { repository.loadDataFromServer() }
-            val localData = async { repository.getMenuFromDatabase() }
+            repository.loadDataFromServer()
+            val localData = repository.getMenuFromDatabase()
 
-            loadFromServer.await()
-            _menuItems.value = localData.await()
+            _menuItems.value = localData
+            menuItemsFromDataBase = _menuItems.value
+            println("william loadMenuItemsDataBase " + _menuItems.value.size)
         }
     }
+
+    fun searchByTittle(title: String) {
+        if (title.isNotBlank()) {
+            val menuItemsFiltered = menuItemsFromDataBase
+            _menuItems.value = menuItemsFiltered.filter {
+                it.title.contains(title, ignoreCase = true)
+            }
+        } else {
+            _menuItems.value = menuItemsFromDataBase
+        }
+    }
+
+    fun searchByCategory(categoryName: String) {
+        if (categoryName != "All") {
+            val menuItemsFiltered = menuItemsFromDataBase
+            _menuItems.value = menuItemsFiltered.filter {
+                it.category.contains(categoryName, ignoreCase = true)
+            }
+        } else {
+            _menuItems.value = menuItemsFromDataBase
+        }
+    }
+
 }

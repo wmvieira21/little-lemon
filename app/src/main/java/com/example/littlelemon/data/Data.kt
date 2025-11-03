@@ -5,6 +5,7 @@ data class Category(
 )
 
 val categories: List<Category> = mutableListOf(
+    Category("All"),
     Category("Starters"),
     Category("Mains"),
     Category("Desserts"),

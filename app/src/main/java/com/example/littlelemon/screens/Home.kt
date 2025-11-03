@@ -34,47 +34,54 @@ fun HomeScreen(
 ) {
     Column(modifier = modifier) {
         HeaderHome(navController, modifier)
-        SearchBanner()
-        CategoryFilter(onClick = {})
+        InfoBanner()
         Menu(repository = repository)
     }
 }
 
 @Composable
-private fun SearchBanner() {
+private fun SearchField(
+    searchTextField: MutableState<String>, onChangeValue: (String) -> Unit
+) {
+
     Column(
         modifier = Modifier
             .background(Color(0xFF495E57))
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        InfoBanner()
-        SearchField()
+        SearchTextField(
+            placeholder = "Enter search phrase",
+            value = searchTextField.value,
+            onValueChange = { value ->
+                searchTextField.value = value
+                onChangeValue(value)
+            },
+            modifier = Modifier.padding(vertical = 16.dp)
+        )
     }
-}
-
-@Composable
-private fun SearchField() {
-    val searchTextField = rememberSaveable { mutableStateOf("") }
-
-    fun onChangeValue(field: MutableState<String>, value: String) {
-        field.value = value
-    }
-
-    SearchTextField(
-        placeholder = "Enter search phrase",
-        value = searchTextField.value,
-        onValueChange = { it -> onChangeValue(searchTextField, it) },
-        modifier = Modifier.padding(vertical = 16.dp)
-    )
 }
 
 @Composable
 private fun Menu(repository: MenuRepository, viewModel: MenuItemsViewModel = viewModel()) {
+    val searchTextField = rememberSaveable { mutableStateOf("") }
     val menuItems: List<MenuItemEntity> by viewModel.menuItems.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.loadMenuItemsDataBase(repository = repository)
     }
+
+    val onSearchingByTitle: (String) -> Unit = { title ->
+        viewModel.searchByTittle(title)
+    }
+    val onSearchingByCategory: (String) -> Unit = { category ->
+        searchTextField.value = ""
+        viewModel.searchByCategory(category)
+    }
+
+    println("william menuItems ${menuItems.size}")
+
+    SearchField(searchTextField = searchTextField, onSearchingByTitle)
+    CategoryFilter(onSearchingByCategory)
 
     LazyColumn(state = rememberLazyListState(), modifier = Modifier.padding(8.dp)) {
         itemsIndexed(menuItems) { index, item ->
@@ -86,5 +93,4 @@ private fun Menu(repository: MenuRepository, viewModel: MenuItemsViewModel = vie
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    SearchBanner()
 }
