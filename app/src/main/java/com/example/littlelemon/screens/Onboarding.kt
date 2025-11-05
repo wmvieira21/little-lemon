@@ -100,6 +100,11 @@ private fun SignUpForm(sharedPreferences: SharedPreferences, navController: NavH
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
         ) {
+            Text(
+                text = "Personal information",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(vertical = 16.dp)
+            )
             CustomTextField(
                 labelName = "First name",
                 value = firstNameValue.value,
