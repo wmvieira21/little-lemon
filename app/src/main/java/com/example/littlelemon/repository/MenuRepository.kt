@@ -9,11 +9,9 @@ class MenuRepository(
 ) {
     suspend fun loadDataFromServer() {
         val itemsFromServer = service.getMenuItemsFromServer()
-        println("william itemsFromServer ${itemsFromServer.size}")
         if (itemsFromServer.isNotEmpty()) {
             val itemListEntity: List<MenuItemEntity> = itemsFromServer.map { it.toEntity() }
             saveDataDatabase(itemListEntity)
-            println("william saving ${itemListEntity.size}")
         }
     }
 

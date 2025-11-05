@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.littlelemon.repository.MenuItemEntity
 import com.example.littlelemon.repository.MenuRepository
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -13,7 +12,10 @@ import kotlin.collections.filter
 class MenuItemsViewModel : ViewModel() {
     private var menuItemsFromDataBase: List<MenuItemEntity> = emptyList()
     private val _menuItems = MutableStateFlow<List<MenuItemEntity>>(emptyList())
+    private val _searchInput = MutableStateFlow<String>("")
+
     val menuItems: StateFlow<List<MenuItemEntity>> = _menuItems
+    val searchInput: StateFlow<String> = _searchInput
 
     fun loadMenuItemsDataBase(repository: MenuRepository) {
         viewModelScope.launch {
@@ -22,7 +24,6 @@ class MenuItemsViewModel : ViewModel() {
 
             _menuItems.value = localData
             menuItemsFromDataBase = _menuItems.value
-            println("william loadMenuItemsDataBase " + _menuItems.value.size)
         }
     }
 
@@ -48,4 +49,7 @@ class MenuItemsViewModel : ViewModel() {
         }
     }
 
+    fun onChangeInputText(text: String) {
+        _searchInput.value = text
+    }
 }

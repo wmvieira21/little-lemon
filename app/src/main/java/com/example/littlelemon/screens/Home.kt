@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,9 +40,8 @@ fun HomeScreen(
 
 @Composable
 private fun SearchField(
-    searchTextField: MutableState<String>, onChangeValue: (String) -> Unit
+    searchInput: String, onChangeValue: (String) -> Unit
 ) {
-
     Column(
         modifier = Modifier
             .background(Color(0xFF495E57))
@@ -51,10 +49,9 @@ private fun SearchField(
     ) {
         SearchTextField(
             placeholder = "Enter search phrase",
-            value = searchTextField.value,
-            onValueChange = { value ->
-                searchTextField.value = value
-                onChangeValue(value)
+            value = searchInput,
+            onValueChange = { text ->
+                onChangeValue(text)
             },
             modifier = Modifier.padding(vertical = 16.dp)
         )
@@ -63,7 +60,7 @@ private fun SearchField(
 
 @Composable
 private fun Menu(repository: MenuRepository, viewModel: MenuItemsViewModel = viewModel()) {
-    val searchTextField = rememberSaveable { mutableStateOf("") }
+    val searchInput: String by viewModel.searchInput.collectAsState()
     val menuItems: List<MenuItemEntity> by viewModel.menuItems.collectAsState()
 
     LaunchedEffect(Unit) {
@@ -71,16 +68,15 @@ private fun Menu(repository: MenuRepository, viewModel: MenuItemsViewModel = vie
     }
 
     val onSearchingByTitle: (String) -> Unit = { title ->
+        viewModel.onChangeInputText(title)
         viewModel.searchByTittle(title)
     }
     val onSearchingByCategory: (String) -> Unit = { category ->
-        searchTextField.value = ""
+        viewModel.onChangeInputText("")
         viewModel.searchByCategory(category)
     }
 
-    println("william menuItems ${menuItems.size}")
-
-    SearchField(searchTextField = searchTextField, onSearchingByTitle)
+    SearchField(searchInput, onSearchingByTitle)
     CategoryFilter(onSearchingByCategory)
 
     LazyColumn(state = rememberLazyListState(), modifier = Modifier.padding(8.dp)) {
